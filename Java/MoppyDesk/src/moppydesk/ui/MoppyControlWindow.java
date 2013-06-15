@@ -18,6 +18,7 @@ import java.util.logging.Level;
 import java.util.logging.Logger;
 import javax.sound.midi.MidiDevice.Info;
 import javax.sound.midi.MidiUnavailableException;
+import javax.swing.JList;
 import javax.swing.JOptionPane;
 import moppydesk.*;
 import moppydesk.outputs.MoppyReceiver;
@@ -34,8 +35,12 @@ public class MoppyControlWindow extends javax.swing.JFrame {
     
     HashMap<String,MoppyReceiver> outputPlayers = new HashMap<String, MoppyReceiver>();
     
+    
     MIDIInControls midiInControls;
     SequencerControls seqControls;
+    
+    
+    //PlayList playList = new PlayList();
     
     InputPanel currentInputPanel;
 
@@ -47,6 +52,7 @@ public class MoppyControlWindow extends javax.swing.JFrame {
         
         midiInControls = new MIDIInControls(app.midiIn);
         seqControls = new SequencerControls(app, this, app.ms);
+       
         app.ms.addListener(seqControls);
         
         availableMIDIOuts = MoppyMIDIOutput.getMIDIOutInfos();
@@ -71,7 +77,6 @@ public class MoppyControlWindow extends javax.swing.JFrame {
     }
 
     private void setupOutputControls() {
-
 
         for (OutputSetting s : outputSettings) {
             ChannelOutControl newControl = new ChannelOutControl(this, s);
@@ -267,13 +272,20 @@ public class MoppyControlWindow extends javax.swing.JFrame {
     }
 
     private void updateInputPanel(){
+        
         mainInputPanel.removeAll();
+        
         if (inputSelectBox.getSelectedIndex() == 0){ //MIDI File
             currentInputPanel = seqControls;
         } else { //MIDI IN
             currentInputPanel = midiInControls;
         }
+        
+        // Add the play list ListBox
+        //mainInputPanel.add(playList);
+        
         mainInputPanel.add(currentInputPanel);
+
         mainInputPanel.revalidate();
         mainInputPanel.repaint();
     }

@@ -12,6 +12,7 @@ import java.util.concurrent.TimeUnit;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 import javax.sound.midi.Transmitter;
+import javax.swing.DefaultListModel;
 import javax.swing.JFileChooser;
 import javax.swing.JOptionPane;
 import javax.swing.JSlider;
@@ -32,6 +33,10 @@ public class SequencerControls extends InputPanel implements MoppyStatusConsumer
     private boolean isConnected = false;
     private boolean fileLoaded = false;
 
+    
+    private DefaultListModel _Model;
+    //Create a file chooser
+    final JFileChooser _Fc;
     /**
      * Creates new form SequencerControls
      */
@@ -41,7 +46,14 @@ public class SequencerControls extends InputPanel implements MoppyStatusConsumer
         this.controlWindow = mcw;
 
         initComponents();
-
+        
+        _Fc = new JFileChooser();
+        _Fc.setFileSelectionMode(JFileChooser.DIRECTORIES_ONLY);
+        _Model = new DefaultListModel();
+        jListPlayList.setModel(_Model);
+        
+        
+        
         progressTimer = new Timer(1000, new ActionListener() {
 
             public void actionPerformed(ActionEvent e) {
@@ -82,6 +94,11 @@ public class SequencerControls extends InputPanel implements MoppyStatusConsumer
         sequenceProgressSlider = new javax.swing.JSlider();
         currentPositionLabel = new javax.swing.JLabel();
         totalPositionLabel = new javax.swing.JLabel();
+        jButtonPath = new javax.swing.JButton();
+        jTextFieldPath = new javax.swing.JTextField();
+        jScrollPane1 = new javax.swing.JScrollPane();
+        jListPlayList = new javax.swing.JList();
+        jButtonGetList = new javax.swing.JButton();
 
         jLabel1.setText("Current Sequence:");
 
@@ -139,36 +156,73 @@ public class SequencerControls extends InputPanel implements MoppyStatusConsumer
 
         totalPositionLabel.setText("00:00");
 
+        jButtonPath.setText("Path");
+        jButtonPath.setToolTipText("");
+        jButtonPath.setActionCommand("");
+        jButtonPath.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                jButtonPathActionPerformed(evt);
+            }
+        });
+
+        jListPlayList.setSelectionMode(javax.swing.ListSelectionModel.SINGLE_SELECTION);
+        jListPlayList.addListSelectionListener(new javax.swing.event.ListSelectionListener() {
+            public void valueChanged(javax.swing.event.ListSelectionEvent evt) {
+                jListPlayListValueChanged(evt);
+            }
+        });
+        jScrollPane1.setViewportView(jListPlayList);
+
+        jButtonGetList.setText("Get List");
+        jButtonGetList.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                jButtonGetListActionPerformed(evt);
+            }
+        });
+
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(this);
         this.setLayout(layout);
         layout.setHorizontalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(layout.createSequentialGroup()
                 .addContainerGap()
-                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
-                    .addGroup(javax.swing.GroupLayout.Alignment.LEADING, layout.createSequentialGroup()
-                        .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                            .addComponent(sequenceNameLabel)
-                            .addComponent(jLabel1))
-                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                        .addComponent(loadButton))
-                    .addGroup(javax.swing.GroupLayout.Alignment.LEADING, layout.createSequentialGroup()
-                        .addGap(126, 126, 126)
-                        .addComponent(bpmLabel)
-                        .addGap(0, 0, Short.MAX_VALUE))
-                    .addGroup(javax.swing.GroupLayout.Alignment.LEADING, layout.createSequentialGroup()
-                        .addComponent(jSlider1, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                        .addGap(18, 18, 18)
-                        .addComponent(startButton, javax.swing.GroupLayout.PREFERRED_SIZE, 76, javax.swing.GroupLayout.PREFERRED_SIZE)
-                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                        .addComponent(stopButton))
-                    .addGroup(javax.swing.GroupLayout.Alignment.LEADING, layout.createSequentialGroup()
+                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                    .addGroup(layout.createSequentialGroup()
+                        .addGap(39, 39, 39)
                         .addComponent(currentPositionLabel, javax.swing.GroupLayout.PREFERRED_SIZE, 30, javax.swing.GroupLayout.PREFERRED_SIZE)
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                         .addComponent(sequenceProgressSlider, javax.swing.GroupLayout.PREFERRED_SIZE, 376, javax.swing.GroupLayout.PREFERRED_SIZE)
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                         .addComponent(totalPositionLabel, javax.swing.GroupLayout.PREFERRED_SIZE, 30, javax.swing.GroupLayout.PREFERRED_SIZE)
-                        .addContainerGap())))
+                        .addContainerGap(171, Short.MAX_VALUE))
+                    .addGroup(layout.createSequentialGroup()
+                        .addComponent(jButtonGetList)
+                        .addGap(0, 0, Short.MAX_VALUE))
+                    .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, layout.createSequentialGroup()
+                        .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
+                            .addComponent(jScrollPane1)
+                            .addGroup(javax.swing.GroupLayout.Alignment.LEADING, layout.createSequentialGroup()
+                                .addComponent(jButtonPath)
+                                .addGap(0, 205, Short.MAX_VALUE))
+                            .addComponent(jTextFieldPath))
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
+                        .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                            .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                                .addGroup(layout.createSequentialGroup()
+                                    .addComponent(jLabel1)
+                                    .addGap(188, 188, 188)
+                                    .addComponent(loadButton))
+                                .addComponent(sequenceNameLabel))
+                            .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                                .addGroup(layout.createSequentialGroup()
+                                    .addComponent(jSlider1, javax.swing.GroupLayout.PREFERRED_SIZE, 187, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                    .addGap(18, 18, 18)
+                                    .addComponent(startButton, javax.swing.GroupLayout.PREFERRED_SIZE, 76, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                    .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                                    .addComponent(stopButton))
+                                .addGroup(layout.createSequentialGroup()
+                                    .addGap(72, 72, 72)
+                                    .addComponent(bpmLabel)))))))
         );
         layout.setVerticalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
@@ -176,21 +230,32 @@ public class SequencerControls extends InputPanel implements MoppyStatusConsumer
                 .addContainerGap()
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                     .addGroup(layout.createSequentialGroup()
-                        .addComponent(jLabel1)
+                        .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                            .addComponent(jButtonPath)
+                            .addComponent(jLabel1, javax.swing.GroupLayout.Alignment.TRAILING, javax.swing.GroupLayout.PREFERRED_SIZE, 14, javax.swing.GroupLayout.PREFERRED_SIZE))
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                        .addComponent(sequenceNameLabel))
-                    .addComponent(loadButton))
-                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
-                    .addGroup(layout.createSequentialGroup()
-                        .addComponent(bpmLabel)
-                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                        .addComponent(jSlider1, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
-                    .addGroup(layout.createSequentialGroup()
-                        .addGap(34, 34, 34)
                         .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                            .addComponent(stopButton)
-                            .addComponent(startButton))))
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 33, Short.MAX_VALUE)
+                            .addComponent(sequenceNameLabel)
+                            .addComponent(jTextFieldPath, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)))
+                    .addComponent(loadButton))
+                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                    .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                        .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, layout.createSequentialGroup()
+                            .addGap(4, 4, 4)
+                            .addComponent(bpmLabel)
+                            .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
+                            .addComponent(jSlider1, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
+                        .addGroup(layout.createSequentialGroup()
+                            .addGap(37, 37, 37)
+                            .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                                .addComponent(stopButton)
+                                .addComponent(startButton))))
+                    .addGroup(layout.createSequentialGroup()
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                        .addComponent(jScrollPane1, javax.swing.GroupLayout.PREFERRED_SIZE, 108, javax.swing.GroupLayout.PREFERRED_SIZE)))
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                .addComponent(jButtonGetList)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
                     .addComponent(sequenceProgressSlider, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                     .addComponent(currentPositionLabel, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
@@ -264,12 +329,78 @@ public class SequencerControls extends InputPanel implements MoppyStatusConsumer
                 seconds % 60));
     }//GEN-LAST:event_sequenceProgressDragged
 
+    private void jButtonPathActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButtonPathActionPerformed
+        // TODO add your handling code here:
+        if (evt.getSource() == jButtonPath) {
+            int returnVal = _Fc.showOpenDialog(this);
+
+            if (returnVal == JFileChooser.APPROVE_OPTION) {
+                File file = _Fc.getSelectedFile();
+                //This is where a real application would open the file.
+                 System.out.println("Opening: " + file.getPath() + ".");
+                 jTextFieldPath.setText(file.getPath());
+            } else {
+                System.out.println("Open command cancelled by user.");
+            }
+        }
+    }//GEN-LAST:event_jButtonPathActionPerformed
+
+    private void jListPlayListValueChanged(javax.swing.event.ListSelectionEvent evt) {//GEN-FIRST:event_jListPlayListValueChanged
+        // TODO add your handling code here:
+        if (evt.getValueIsAdjusting() == false) {
+
+            if (jListPlayList.getSelectedIndex() == -1) {
+                //No selection, disable fire button.
+
+            } else {
+                System.out.println(jTextFieldPath.getText() + "\\" + jListPlayList.getSelectedValue());
+                File sequenceFile = new File(jTextFieldPath.getText() + "\\" + jListPlayList.getSelectedValue());
+                
+                loadSequenceFile(sequenceFile);
+            }
+        }
+    }//GEN-LAST:event_jListPlayListValueChanged
+
+    private void jButtonGetListActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButtonGetListActionPerformed
+        // TODO add your handling code here:
+        String path = jTextFieldPath.getText();
+        System.out.println(path);
+        
+        getFileList(jTextFieldPath.getText());
+    }//GEN-LAST:event_jButtonGetListActionPerformed
+
     public void tempoChanged(int newTempo) {
         jSlider1.setValue(newTempo);
         bpmLabel.setText(newTempo + " bpm");
     }
+    
+    private void getFileList(String sPath) {
+    
+        //sPath == Directory path
 
-    private void loadSequenceFile(File sequenceFile) {
+        String files;
+        File folder = new File(sPath);
+        File[] listOfFiles = folder.listFiles(); 
+ 
+        for (int i = 0; i < listOfFiles.length; i++) {
+            if (listOfFiles[i].isFile()) {
+                files = listOfFiles[i].getName();
+                
+                if ( files.endsWith(".mid") || files.endsWith(".midi")){
+                    System.out.println(files);
+                    
+                    // add items to the play list
+                    _Model.addElement(files);
+                   
+                }
+            }
+        }
+        
+        jListPlayList.setSelectedIndex(0);
+        jListPlayList.ensureIndexIsVisible(0);
+    }
+
+    public void loadSequenceFile(File sequenceFile) {
         try {
             controlWindow.setStatus("Loading file...");
             seq.loadFile(sequenceFile.getPath());
@@ -288,11 +419,17 @@ public class SequencerControls extends InputPanel implements MoppyStatusConsumer
             JOptionPane.showMessageDialog(this.getRootPane(), ex);
         }
     }
+    
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JLabel bpmLabel;
     private javax.swing.JLabel currentPositionLabel;
+    private javax.swing.JButton jButtonGetList;
+    private javax.swing.JButton jButtonPath;
     private javax.swing.JLabel jLabel1;
+    private javax.swing.JList jListPlayList;
+    private javax.swing.JScrollPane jScrollPane1;
     private javax.swing.JSlider jSlider1;
+    private javax.swing.JTextField jTextFieldPath;
     private javax.swing.JButton loadButton;
     private javax.swing.JLabel sequenceNameLabel;
     private javax.swing.JSlider sequenceProgressSlider;

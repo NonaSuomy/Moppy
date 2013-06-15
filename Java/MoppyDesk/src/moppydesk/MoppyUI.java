@@ -31,7 +31,7 @@ public class MoppyUI extends SingleFrameApplication {
     public MoppySequencer ms;
     public MoppyMIDIInput midiIn;
     /**
-     * The {@link ReceiverMarshaller} will be added as a receiver to whatver
+     * The {@link ReceiverMarshaller} will be added as a receiver to whatever
      * input object is selected.
      */
     public ReceiverMarshaller rm = new ReceiverMarshaller();
