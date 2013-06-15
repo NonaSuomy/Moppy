@@ -1,22 +1,24 @@
-                                  _       _                               _ 
-  /\/\   ___  _ __  _ __  _   _  /_\   __| |_   ____ _ _ __   ___ ___  __| |
- /    \ / _ \| '_ \| '_ \| | | |//_\\ / _` \ \ / / _` | '_ \ / __/ _ \/ _` |
-/ /\/\ \ (_) | |_) | |_) | |_| /  _  \ (_| |\ V / (_| | | | | (_|  __/ (_| |
-\/    \/\___/| .__/| .__/ \__, \_/ \_/\__,_| \_/ \__,_|_| |_|\___\___|\__,_|
-             |_|   |_|    |___/                                             
+   _____                                      __________      ___.                  __   
+  /     \   ____ ______ ______ ___.__.        \______   \ ____\_ |__   ____   _____/  |_ 
+ /  \ /  \ /  _ \\____ \\____ <   |  |  ______ |       _// __ \| __ \ /  _ \ /  _ \   __\
+/    Y    (  <_> )  |_> >  |_> >___  | /_____/ |    |   \  ___/| \_\ (  <_> |  <_> )  |  
+\____|__  /\____/|   __/|   __// ____|         |____|_  /\___  >___  /\____/ \____/|__|  
+        \/       |__|   |__|   \/                     \/     \/    \/                    
 
-by Sammy1Am
+by unLab.ca
 
 Moppy is a M_usical Fl_oppy controller program built for the Ardiuno UNO.
 
-This version attempts to improve upon the original Moppy by adding additional functionality including:
+This version attempts to improve upon the original Moppy-Advanced by adding additional functionality look here for details:
 
-- MIDI-IN support
-- Per-channel output control
-- Support for multiple Arduinos/MIDI devices
+http://unlab.ca/w/moppy-reboot
 
 
+--Original Doc From the original project below. Look to the unWiki above for further details on additions--
 
+
+
+\\Old documentation starts here//
         __  ___                     ___    __       
 | |\ | /__`  |   /\  |    |     /\   |  | /  \ |\ | 
 | | \| .__/  |  /~~\ |___ |___ /~~\  |  | \__/ | \| 
@@ -71,6 +73,6 @@ Also, it's VERY IMPORTANT that your Arduino is grounded with the drives, or the 
 
 Cross your fingers, and enjoy!
 
---HELP/CONTRIBUTIONS--
+--Original code done by--
 
 https://github.com/SammyIAm/Moppy
